@@ -41,6 +41,8 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 	}
 
 	for _, device := range devices {
+		defer device.Close()
+
 		log.WithField("id", device.GetId()).Debug("processing device")
 
 		if roms, err := device.GetSensors(); err != nil {
